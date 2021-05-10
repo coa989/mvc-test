@@ -3,11 +3,15 @@
 
 namespace app\controllers;
 
+use app\core\Controller;
 
-class SiteController
+class SiteController extends Controller
 {
-    public function index()
+    public function home()
     {
-        echo "Welcome to home page";
+        $params = [
+          'name' => 'Cole'
+        ];
+        return $this->render('home', $params);
     }
 }
