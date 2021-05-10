@@ -1,0 +1,15 @@
+{
+    "name": "coa/mvc-test1",
+    "authors": [
+        {
+            "name": "Aleksandar Marjanovic",
+            "email": "a.marjanovic989@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
