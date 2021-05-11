@@ -34,17 +34,21 @@ class Router
 
         $callback = $this->routes[$method][$path] ?? false;
 
+        // ako callback ne postoji u routes array vracamo not found 404
         if ($callback === false) {
             $this->response->setStatusCode(404);
         }
+        // ako je string vracamo view sa tim stringom
         if (is_string($callback)) {
             return Application::$app->view->renderView($callback);
         }
+//        ako je array tj u formatu [controller, method] instanciramo controller
+//        i dodeljujemo objekat callbacku na poziciji 1
         if (is_array($callback)) {
             Application::$app->controller = new $callback[0]();
             $callback[0] = Application::$app->controller;
         }
-
+//      pokrecemo callback pomocu call_user_func
         return call_user_func($callback);
     }
 }
