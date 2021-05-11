@@ -12,6 +12,7 @@ class Application
     public Router $router;
     public View $view;
     public Controller $controller;
+    public Database $db;
 
     /**
      * Application constructor
@@ -27,6 +28,7 @@ class Application
         $this->router = new Router($this->request, $this->response);
         $this->view = new View();
         $this->controller = new Controller();
+        $this->db = new Database();
     }
 
     public function run()
