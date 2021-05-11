@@ -53,7 +53,7 @@ class Router
             Application::$app->controller = new $callback[0]();
             $callback[0] = Application::$app->controller;
         }
-//      pokrecemo callback pomocu call_user_func
-        return call_user_func($callback);
+//      pokrecemo callback pomocu call_user_func, saljemo i request da bi mogli da ga koristimo u metodama kontrolera
+        return call_user_func($callback, $this->request);
     }
 }
