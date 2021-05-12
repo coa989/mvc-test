@@ -36,8 +36,9 @@ class User extends Model
             $this->errors['email'] = 'Please enter email';
         } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $this->errors['email'] = 'Please use valid email address';
+        } elseif (parent::findOne(['email' => $this->email])) {
+            $this->errors['email'] = 'Email address already used';
         }
-        // todo implement unique email
 
         if (empty($this->password)) {
             $this->errors['password'] = 'Please enter password';
@@ -61,20 +62,14 @@ class User extends Model
 
     public function save()
     {
-        $tableName = $this->tableName();
-        $attributes = $this->attributes();
-        $params = array_map(fn($attr) => ":$attr", $attributes);
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
 
-        $statement = self::prepare("INSERT INTO $tableName (".implode(',', $attributes).") VALUES (".implode(',', $params).")");
-
-        foreach ($attributes as $attribute) {
-
-            $statement->bindValue(":$attribute", $this->{$attribute});
-        }
-        $statement->execute();
+        parent::save();
 
         return true;
+
     }
+
 
     public function tableName(): string
     {
