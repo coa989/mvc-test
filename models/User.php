@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\core\Application;
 use app\core\Model;
 
 class User extends Model
@@ -12,7 +13,6 @@ class User extends Model
     public string $confirmPassword = '';
 
     public array $errors = [];
-
 
     public function loadData($data)
     {
@@ -61,6 +61,28 @@ class User extends Model
 
     public function save()
     {
-        echo 'saving new user';
+        $tableName = $this->tableName();
+        $attributes = $this->attributes();
+        $params = array_map(fn($attr) => ":$attr", $attributes);
+
+        $statement = Application::$app->db->pdo->prepare("INSERT INTO $tableName (".implode(',', $attributes).") VALUES (".implode(',', $params).")");
+
+        foreach ($attributes as $attribute) {
+
+            $statement->bindValue(":$attribute", $this->{$attribute});
+        }
+        $statement->execute();
+
+        return true;
+    }
+
+    public function tableName(): string
+    {
+        return 'users';
+    }
+
+    public function attributes(): array
+    {
+        return ['username', 'email', 'password'];
     }
 }
