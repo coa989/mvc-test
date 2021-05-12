@@ -4,10 +4,10 @@
 namespace app\core;
 
 
-class Model
+abstract class Model
 {
-    public function __construct()
-    {
+    abstract public function tableName(): string;
 
-    }
+    abstract public function attributes(): array;
+
 }
