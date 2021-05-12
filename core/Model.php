@@ -10,4 +10,9 @@ abstract class Model
 
     abstract public function attributes(): array;
 
+    public function prepare($sql)
+    {
+        return Application::$app->db->pdo->prepare($sql);
+    }
+
 }
