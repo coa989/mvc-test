@@ -62,11 +62,17 @@ class User extends Model
     {
         $user = parent::findOne(['email' => $this->email]);
 
-        if (!$user) {
+        if (empty($this->email)) {
+          $this->errors['email'] = 'Please enter email';
+        } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $this->errors['email'] = 'Please use valid email address';
+        } elseif (!$user) {
             $this->errors['email'] = 'User not found';
         }
 
-        if (!password_verify($this->password, $user->password)) {
+        if (empty($this->password)) {
+            $this->errors['password'] = 'Please enter password';
+        } elseif (!password_verify($this->password, $user->password)) {
             $this->errors['password'] = 'Password incorrect';
         }
 
@@ -91,11 +97,14 @@ class User extends Model
 
     public function login($user)
     {
-        session_start();
-
-        $_SESSION['user'] = $user->id;
-
+        Application::$app->session->set('user', $user->id);
         return true;
+    }
+
+    public function getDisplayName()
+    {
+        $user = $this->findOne(['id' => Application::$app->session->get('user')]);
+        return $user->username;
     }
 
 
