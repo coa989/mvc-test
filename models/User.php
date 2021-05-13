@@ -24,10 +24,8 @@ class User extends Model
     }
 
 
-    public function validate()
+    public function validateRegister()
     {
-        $errors = [];
-
         if (empty($this->username)) {
             $this->errors['username'] = 'Please enter username';
         }
@@ -60,7 +58,27 @@ class User extends Model
 
     }
 
-    public function save()
+    public function validateLogin()
+    {
+        $user = parent::findOne(['email' => $this->email]);
+
+        if (!$user) {
+            $this->errors['email'] = 'User not found';
+        }
+
+        if (!password_verify($this->password, $user->password)) {
+            $this->errors['password'] = 'Password incorrect';
+        }
+
+        if (empty($this->errors)) {
+            return $this->login($user);
+        }
+
+        return false;
+    }
+
+
+    public function register()
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
 
@@ -68,6 +86,16 @@ class User extends Model
 
         return true;
 
+    }
+
+
+    public function login($user)
+    {
+        session_start();
+
+        $_SESSION['user'] = $user->id;
+
+        return true;
     }
 
 
@@ -80,4 +108,5 @@ class User extends Model
     {
         return ['username', 'email', 'password'];
     }
+
 }

@@ -17,8 +17,8 @@ class AuthController extends Controller
         $user = new User();
         if ($request->isPost()) {
             $user->loadData($request->getBody());
-            if ($user->validate() && $user->save()) {
-                Application::$app->response->redirect('/');
+            if ($user->validateRegister() && $user->register()) {
+                Application::$app->response->redirect('/login');
             }
         }
         return $this->render('register', [
@@ -28,8 +28,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $user = new User();
         if ($request->isPost()) {
-
+            $user->loadData($request->getBody());
+            if ($user->validateLogin()) {
+                Application::$app->response->redirect('/');
+            }
         }
         return $this->render('login');
     }

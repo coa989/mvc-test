@@ -1,1 +1,2 @@
-<h1>Welcome <?= $name; ?></h1>
+<?php session_start() ?>
+<h1>Welcome <?= $_SESSION['user']; ?></h1>
