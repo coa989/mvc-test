@@ -13,6 +13,7 @@ class Application
     public View $view;
     public Controller $controller;
     public Database $db;
+    public Session $session;
 
     /**
      * Application constructor
@@ -29,6 +30,7 @@ class Application
         $this->view = new View();
         $this->controller = new Controller();
         $this->db = new Database();
+        $this->session = new Session();
     }
 
     public function run()
