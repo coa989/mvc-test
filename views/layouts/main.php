@@ -19,6 +19,7 @@
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
             </ul>
+            <?php if (\app\core\Application::$app->session->isGuest()): ?>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/login">Login</a>
@@ -27,6 +28,13 @@
                     <a class="nav-link" aria-current="page" href="/register">Register</a>
                 </li>
             </ul>
+            <?php else: ?>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/logout"><?= (new \app\models\User())->getDisplayName() ?> (Logout)</a>
+                </li>
+            </ul>
+            <?php endif; ?>
         </div>
     </div>
 </nav>
