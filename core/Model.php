@@ -41,6 +41,15 @@ abstract class Model
         return $statement->fetchObject();
     }
 
+    public function getAll()
+    {
+        $tableName = $this->tableName();
+        $statement = $this->prepare("SELECT * FROM $tableName");
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
+    }
+
     public function prepare($sql)
     {
         return Application::$app->db->pdo->prepare($sql);
