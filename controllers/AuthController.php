@@ -37,7 +37,6 @@ class AuthController extends Controller
                 } else {
                     Application::$app->response->redirect('/');
                 }
-
             }
         }
         return $this->render('login', [

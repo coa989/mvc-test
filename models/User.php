@@ -122,4 +122,5 @@ class User extends Model
         return $user->role_id === '2';
     }
 
+
 }
