@@ -12,6 +12,7 @@ $dotenv->load();
 $app = new Application(dirname(__DIR__));
 
 $app->router->get('/', [SiteController::class, 'home']);
+$app->router->get('/dashboard', [SiteController::class, 'dashboard']);
 
 $app->router->get('/login', [AuthController::class, 'login']);
 $app->router->post('/login', [AuthController::class, 'login']);

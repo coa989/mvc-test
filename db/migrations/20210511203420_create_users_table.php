@@ -20,7 +20,7 @@ final class CreateUsersTable extends AbstractMigration
     {
         $users = $this->table('users');
         $users->addColumn('username', 'string', ['limit' => 40])
-            ->addColumn('role_id', 'integer', ['default' => 0])
+            ->addColumn('role_id', 'integer', ['default' => 1])
             ->addColumn('email', 'string', ['limit' => 40])
             ->addColumn('password', 'string', ['limit' => 100])
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])

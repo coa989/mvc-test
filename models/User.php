@@ -87,9 +87,7 @@ class User extends Model
     public function register()
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
-
         parent::save();
-
         return true;
 
     }
@@ -116,6 +114,12 @@ class User extends Model
     public function attributes(): array
     {
         return ['username', 'email', 'password'];
+    }
+
+    public function isAdmin()
+    {
+        $user = $this->findOne(['id' => Application::$app->session->get('user')]);
+        return $user->role_id === '2';
     }
 
 }

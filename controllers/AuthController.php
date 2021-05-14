@@ -32,7 +32,12 @@ class AuthController extends Controller
         if ($request->isPost()) {
             $user->loadData($request->getBody());
             if ($user->validateLogin()) {
-                Application::$app->response->redirect('/');
+                if ($user->isAdmin()) {
+                    Application::$app->response->redirect('/dashboard');
+                } else {
+                    Application::$app->response->redirect('/');
+                }
+
             }
         }
         return $this->render('login', [
