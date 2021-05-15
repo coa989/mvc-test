@@ -22,5 +22,5 @@
         <span class="invalid-feedback"><?= $model->errors['confirmPassword'] ?></span>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+    <button type="submit" class="btn btn-primary mt-2">Register</button>
 </form>

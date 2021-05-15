@@ -21,7 +21,7 @@ class AdminSeeder extends AbstractSeed
         $data = [
             [
                 'username' => $_ENV['ADMIN'],
-                'role_id' => 2,
+                'role' => 'admin',
                 'email' => $_ENV['ADMIN_EMAIL'],
                 'password' => password_hash($_ENV['ADMIN_PASS'], PASSWORD_DEFAULT),
                 'created_at' => date('Y-m-d H:i:s'),

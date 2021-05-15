@@ -15,7 +15,7 @@ $users = (new \app\models\User())->getAll();
             <tbody>
                 <?php foreach($users as $user): ?>
                 <tr>
-                    <td><a href="/index?id=<?= $user->id ?>"><?= $user->username; ?></a></td>
+                    <td><a href="/show?id=<?= $user->id ?>"><?= $user->username; ?></a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

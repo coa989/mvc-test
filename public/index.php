@@ -15,11 +15,11 @@ $app = new Application(dirname(__DIR__));
 $app->router->get('/', [SiteController::class, 'home']);
 $app->router->get('/dashboard', [SiteController::class, 'dashboard']); // change to AuthController ???
 
-$app->router->get('/index', [UserController::class, 'index']);
+$app->router->get('/show', [UserController::class, 'show']);
 $app->router->get('/create', [UserController::class, 'create']);
-$app->router->post('/store', [UserController::class, 'store']);
+$app->router->post('/create', [UserController::class, 'create']);
 $app->router->get('/edit', [UserController::class, 'edit']);
-$app->router->post('/update', [UserController::class, 'update']);
+$app->router->post('/edit', [UserController::class, 'edit']);
 $app->router->get('/delete', [UserController::class, 'delete']);
 
 $app->router->get('/login', [AuthController::class, 'login']);

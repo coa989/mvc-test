@@ -17,7 +17,7 @@ class AuthController extends Controller
         $user = new User();
         if ($request->isPost()) {
             $user->loadData($request->getBody());
-            if ($user->validateRegister() && $user->register()) {
+            if ($user->validateRegister() && $user->save()) {
                 Application::$app->response->redirect('/login');
             }
         }
