@@ -11,7 +11,7 @@
                     <p class="card-text">Modified: <?= $user->updated_at ?></p>
                     <h4 class="card-text">Actions: </h4>
                     <a href="/edit?id=<?= $user->id ?>" class="btn btn-secondary  mb-2 btn-block" role="button">Edit</></a>
-                    <a href="/delete" class="btn btn-danger mb-2 btn-block" role="button">Delete</></a>
+                    <a href="/delete?id=<?= $user->id ?>" class="btn btn-danger mb-2 btn-block" role="button">Delete</></a>
                     <a href="/dashboard" class="btn btn-primary mb-2 btn-block" role="button">Back</></a>
                 </div>
     </div>

@@ -51,6 +51,16 @@ abstract class Model
 
     }
 
+    public function delete($id)
+    {
+        $tableName = $this->tableName();
+        $statement = self::prepare("DELETE FROM $tableName WHERE id=:id");
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return true;
+    }
+
+
     public function findOne(array $where)
     {
         $tableName = $this->tableName();
@@ -78,5 +88,7 @@ abstract class Model
     {
         return Application::$app->db->pdo->prepare($sql);
     }
+
+
 
 }

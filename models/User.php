@@ -1,6 +1,8 @@
 <?php
 
+
 namespace app\models;
+
 
 use app\core\Application;
 use app\core\Model;
@@ -85,6 +87,12 @@ class User extends Model
     public function update($id)
     {
         parent::update($id);
+        return true;
+    }
+
+    public function delete($id)
+    {
+        parent::delete($id);
         return true;
     }
 
@@ -176,6 +184,8 @@ class User extends Model
 
         return false;
     }
+
+
 
 
 }
