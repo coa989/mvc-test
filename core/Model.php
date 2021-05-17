@@ -10,6 +10,7 @@ abstract class Model
 
     abstract public function attributes(): array;
 
+
     public function loadData($data)
     {
         foreach ($data as $key => $value) {

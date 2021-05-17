@@ -15,8 +15,5 @@ class SiteController extends Controller
         return $this->render('home', $params);
     }
 
-    public function dashboard()
-    {
-        return $this->render('dashboard');
-    }
+
 }

@@ -13,8 +13,8 @@ $dotenv->load();
 $app = new Application(dirname(__DIR__));
 
 $app->router->get('/', [SiteController::class, 'home']);
-$app->router->get('/dashboard', [SiteController::class, 'dashboard']); // change to AuthController ???
 
+$app->router->get('/dashboard', [UserController::class, 'dashboard']);
 $app->router->get('/show', [UserController::class, 'show']);
 $app->router->get('/create', [UserController::class, 'create']);
 $app->router->post('/create', [UserController::class, 'create']);

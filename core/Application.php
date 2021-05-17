@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\db\Database;
+
 class Application
 {
     public static string $ROOT_PATH;

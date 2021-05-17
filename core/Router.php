@@ -50,7 +50,7 @@ class Router
             return Application::$app->view->renderView($callback);
         }
 //        ako je array tj u formatu [controller, method] instanciramo controller
-//        i dodeljujemo objekat callbacku na poziciji 1
+//        i dodeljujemo objekat callbacku na poziciji 0
         if (is_array($callback)) {
             Application::$app->controller = new $callback[0]();
             $callback[0] = Application::$app->controller;

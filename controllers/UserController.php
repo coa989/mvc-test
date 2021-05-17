@@ -23,6 +23,14 @@ class UserController extends Controller
         }
     }
 
+    public function dashboard()
+    {
+        $users = (new User())->getAll();
+        return $this->render('dashboard', [
+            'users' => $users
+        ]);
+    }
+
     public function show()
     {
         $user = (new User())->findOne(['id' => $_GET['id']]);
