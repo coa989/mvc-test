@@ -4,6 +4,8 @@
 namespace app\core;
 
 
+use app\core\exceptions\NotFoundException;
+
 class Router
 {
     public Request $request;
@@ -39,9 +41,9 @@ class Router
 
         $callback = $this->routes[$method][$path] ?? false;
 
-        // ako callback ne postoji u routes array vracamo not found 404
+        // ako callback ne postoji u routes array vracamo NotFoundException
         if ($callback === false) {
-            $this->response->setStatusCode(404);
+            throw new NotFoundException();
         }
         // ako je string vracamo view sa tim stringom
         if (is_string($callback)) {
