@@ -1,4 +1,9 @@
-<?php /** @var $user \app\models\User */ ?>
+<?php
+/** @var $user \app\models\User
+ *  @var $this \app\core\View
+ */
+$this->title = 'Show User';
+?>
 <div class="container">
     <div class="card mb-3">
                 <div class="card-body">

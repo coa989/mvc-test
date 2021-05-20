@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $users = (new User())->getAll();
+        $users = $this->user->getAll();
         return $this->render('dashboard', [
             'users' => $users
         ]);
@@ -33,7 +33,7 @@ class UserController extends Controller
 
     public function show()
     {
-        $user = (new User())->findOne(['id' => $_GET['id']]);
+        $user = $this->user->findOne(['id' => $_GET['id']]);
         return $this->render('show', [
             'user' => $user
         ]);
@@ -41,39 +41,37 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        $user = new User();
         if ($request->isPost()) {
-            $user->loadData($request->getBody());
-            if ($user->validateCreate() && $user->save()) {
+            $this->user->loadData($request->getBody());
+            if ($this->user->validate() && $this->user->save()) {
                 Application::$app->response->redirect('/dashboard');
             }
         }
         return $this->render('create', [
-            'user' => $user
+            'user' => $this->user
         ]);
     }
 
 
     public function edit(Request $request)
     {
-        $users = new User();
-        $user = $users->findOne(['id' => $_GET['id']]);
+        $user = $this->user->findOne(['id' => $_GET['id']]);
         if ($request->isPost()) {
-            $users->loadData($request->getBody());
-            if ($users->validateUpdate() && $users->update($user->id)) {
+            $this->user->loadData($request->getBody());
+            if ($this->user->validate() && $this->user->update($user->id)) {
                 Application::$app->response->redirect('/dashboard');
             }
         }
 
         return $this->render('edit', [
-            'user' => $user
+            'user' => $this->user,
+            'users' => $user
         ]);
     }
 
     public function delete()
     {
-        $user = new User();
-        if ($user->delete($_GET['id'])) {
+        if ($this->user->delete($_GET['id'])) {
             Application::$app->response->redirect('/dashboard');
         }
     }

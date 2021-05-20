@@ -8,16 +8,18 @@ use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
 use app\models\User;
+use app\models\UserLogin;
+use app\models\UserRegister;
 
 class AuthController extends Controller
 {
 
     public function register(Request $request)
     {
-        $user = new User();
+        $user = new UserRegister();
         if ($request->isPost()) {
             $user->loadData($request->getBody());
-            if ($user->validateRegister() && $user->save()) {
+            if ($user->validate() && $user->register()) {
                 Application::$app->response->redirect('/login');
             }
         }
@@ -28,11 +30,11 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $user = new User();
+        $user = new UserLogin();
         if ($request->isPost()) {
             $user->loadData($request->getBody());
-            if ($user->validateLogin()) {
-                if ($user->isAdmin()) {
+            if ($user->validate() && $user->login()) {
+                if ((new User())->isAdmin()) {
                     Application::$app->response->redirect('/dashboard');
                 } else {
                     Application::$app->response->redirect('/');

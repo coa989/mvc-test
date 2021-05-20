@@ -7,6 +7,8 @@ namespace app\core;
 class View
 {
 
+    public string $title = '';
+
     public function renderView($view, $params = [])
     {
         $viewContent = $this->renderOnlyView($view, $params);
