@@ -16,5 +16,8 @@
         "vlucas/phpdotenv": "^5.3",
         "robmorgan/phinx": "^0.12.6",
         "fzaninotto/faker": "^1.5"
+    },
+    "require-dev": {
+        "mp091689/dump-die": "^1.0"
     }
 }

@@ -1,4 +1,9 @@
-<?php /** @var $users \app\models\User */ ?>
+<?php
+/** @var $users \app\models\User
+ *  @var $this \app\core\View
+ */
+$this->title = 'Dashboard';
+?>
 <div class="card-header py-3">
     <a href="/create"><button class="btn btn-success">Create User</button></a>
 </div>
