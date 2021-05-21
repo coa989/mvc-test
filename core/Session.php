@@ -7,6 +7,8 @@ namespace app\core;
 class Session
 {
 
+    protected const FLASH_KEY = 'flashMessage';
+
     public function __construct()
     {
         session_start();
@@ -31,5 +33,21 @@ class Session
     public function isGuest()
     {
         return !isset($_SESSION['user']);
+    }
+
+    public function setFlash($key, $message)
+    {
+        $_SESSION[self::FLASH_KEY][$key] = $message;
+    }
+
+    public function getFlash($key)
+    {
+        return $_SESSION[self::FLASH_KEY][$key];
+    }
+
+
+    public function removeFlash($key)
+    {
+        unset($_SESSION[self::FLASH_KEY][$key]);
     }
 }

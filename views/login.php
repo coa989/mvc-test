@@ -1,4 +1,10 @@
 <?php
+
+use app\core\Application;
+
+if (!Application::$app->session->isGuest()) {
+    Application::$app->response->redirect('/');
+}
 /** @var $model \app\models\UserLogin
  *  @var $this \app\core\View
  */

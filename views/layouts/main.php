@@ -1,3 +1,6 @@
+<?php
+use app\core\Application;
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,7 +22,7 @@
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
             </ul>
-            <?php if (\app\core\Application::$app->session->isGuest()): ?>
+            <?php if (Application::$app->session->isGuest()): ?>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/login">Login</a>
@@ -39,6 +42,11 @@
     </div>
 </nav>
 <div class="container">
+    <?php if (Application::$app->session->getFlash('login')): ?>
+    <div class="alert alert-success">
+        <?= Application::$app->session->getFlash('login') ?>
+    </div>
+    <?php endif; ?>
     {{content}}
 </div>
 

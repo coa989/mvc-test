@@ -34,6 +34,7 @@ class AuthController extends Controller
         if ($request->isPost()) {
             $user->loadData($request->getBody());
             if ($user->validate() && $user->login()) {
+                Application::$app->session->setFlash('login', 'You are successfully login');
                 if ((new User())->isAdmin()) {
                     Application::$app->response->redirect('/dashboard');
                 } else {
