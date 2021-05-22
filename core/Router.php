@@ -1,17 +1,19 @@
 <?php
 
-
 namespace app\core;
-
 
 use app\core\exceptions\NotFoundException;
 
+/**
+ * Class Router
+ * @package app\core
+ */
 class Router
 {
-    public Request $request;
-    public Response $response;
+    private Request $request;
+    private Response $response;
 
-    public array $routes = [];
+    private array $routes = [];
 
     /**
      * Router constructor.
@@ -24,16 +26,28 @@ class Router
         $this->response = $response;
     }
 
+    /**
+     * @param $path
+     * @param $callback
+     */
     public function get($path, $callback)
     {
         $this->routes['get'][$path] = $callback;
     }
 
+    /**
+     * @param $path
+     * @param $callback
+     */
     public function post($path, $callback)
     {
         $this->routes['post'][$path] = $callback;
     }
 
+    /**
+     * @return mixed|string|string[]
+     * @throws NotFoundException
+     */
     public function resolve()
     {
         $path = $this->request->getPath();

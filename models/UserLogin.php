@@ -1,27 +1,38 @@
 <?php
 
-
 namespace app\models;
-
 
 use app\core\Application;
 use app\core\Model;
 
+/**
+ * Class UserLogin
+ * @package app\models
+ */
 class UserLogin extends Model
 {
     public string $email = '';
     public string $password = '';
 
+    /**
+     * @return string
+     */
     public function tableName(): string
     {
         return 'users';
     }
 
+    /**
+     * @return array|string[]
+     */
     public function attributes(): array
     {
         return ['email', 'password'];
     }
 
+    /**
+     * @return array|array[]
+     */
     public function rules(): array
     {
         return [
@@ -30,6 +41,9 @@ class UserLogin extends Model
         ];
     }
 
+    /**
+     * @return bool
+     */
     public function login()
     {
         $user = $this->findOne(['email' => $this->email]);
@@ -40,5 +54,4 @@ class UserLogin extends Model
             return true;
         }
     }
-
 }

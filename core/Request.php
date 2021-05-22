@@ -1,11 +1,16 @@
 <?php
 
-
 namespace app\core;
 
-
+/**
+ * Class Request
+ * @package app\core
+ */
 class Request
 {
+    /**
+     * @return false|mixed|string
+     */
     public function getPath()
     {
         $path = $_SERVER['REQUEST_URI'];
@@ -19,11 +24,17 @@ class Request
         return substr($path, 0, $position);
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 
+    /**
+     * @return array
+     */
     public function getBody()
     {
         $body = [];
@@ -43,11 +54,17 @@ class Request
         return $body;
     }
 
+    /**
+     * @return bool
+     */
     public function isPost()
     {
         return $this->getMethod() === 'post';
     }
 
+    /**
+     * @return bool
+     */
     public function isGet()
     {
         return $this->getMethod() === 'get';

@@ -1,12 +1,14 @@
 <?php
 
-
 namespace app\models;
-
 
 use app\core\Application;
 use app\core\Model;
 
+/**
+ * Class User
+ * @package app\models
+ */
 class User extends Model
 {
     public string $username = '';
@@ -16,6 +18,9 @@ class User extends Model
 
     public array $errors = [];
 
+    /**
+     * @return bool
+     */
     public function save()
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
@@ -23,41 +28,64 @@ class User extends Model
         return true;
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function update($id)
     {
         parent::update($id);
         return true;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function delete($id)
     {
         parent::delete($id);
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isAdmin()
     {
-        $user = parent::findOne(['id' => Application::$app->session->get('user')]);
+        $user = $this->findOne(['id' => Application::$app->session->get('user')]);
         return $user->role === 'admin';
     }
 
+    /**
+     * @return mixed
+     */
     public function getDisplayName()
     {
-        $user = parent::findOne(['id' => Application::$app->session->get('user')]);
+        $user = $this->findOne(['id' => Application::$app->session->get('user')]);
         return $user->username;
     }
 
 
+    /**
+     * @return string
+     */
     public function tableName(): string
     {
         return 'users';
     }
 
+    /**
+     * @return array|string[]
+     */
     public function attributes(): array
     {
         return ['username', 'email', 'password', 'role'];
     }
 
+    /**
+     * @return array|array[]
+     */
     public function rules(): array
     {
         return [

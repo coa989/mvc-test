@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\controllers;
-
 
 use app\core\Application;
 use app\core\Controller;
@@ -10,11 +8,22 @@ use app\core\exceptions\ForbiddenException;
 use app\core\Request;
 use app\models\User;
 
+/**
+ * Class UserController
+ * @package app\controllers
+ */
 class UserController extends Controller
-{   
+{
 
+    /**
+     * @var User
+     */
     private User $user;
-    
+
+    /**
+     * UserController constructor.
+     * @throws ForbiddenException
+     */
     public function __construct()
     {
         $this->user = new User();
@@ -23,6 +32,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @return string|string[]
+     */
     public function dashboard()
     {
         $users = $this->user->getAll();
@@ -31,6 +43,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @return string|string[]
+     */
     public function show()
     {
         $user = $this->user->findOne(['id' => $_GET['id']]);
@@ -39,6 +54,10 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return string|string[]
+     */
     public function create(Request $request)
     {
         if ($request->isPost()) {
@@ -53,6 +72,10 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return string|string[]
+     */
     public function edit(Request $request)
     {
         $user = $this->user->findOne(['id' => $_GET['id']]);
@@ -69,6 +92,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     *
+     */
     public function delete()
     {
         if ($this->user->delete($_GET['id'])) {

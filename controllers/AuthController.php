@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\controllers;
-
 
 use app\core\Application;
 use app\core\Controller;
@@ -11,9 +9,16 @@ use app\models\User;
 use app\models\UserLogin;
 use app\models\UserRegister;
 
+/**
+ * Class AuthController
+ * @package app\controllers
+ */
 class AuthController extends Controller
 {
-
+    /**
+     * @param Request $request
+     * @return string|string[]
+     */
     public function register(Request $request)
     {
         $user = new UserRegister();
@@ -28,6 +33,10 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return string|string[]
+     */
     public function login(Request $request)
     {
         $user = new UserLogin();

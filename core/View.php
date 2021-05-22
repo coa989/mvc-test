@@ -1,14 +1,20 @@
 <?php
 
-
 namespace app\core;
 
-
+/**
+ * Class View
+ * @package app\core
+ */
 class View
 {
-
     public string $title = '';
 
+    /**
+     * @param $view
+     * @param array $params
+     * @return string|string[]
+     */
     public function renderView($view, $params = [])
     {
         $viewContent = $this->renderOnlyView($view, $params);
@@ -17,6 +23,11 @@ class View
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
 
+    /**
+     * @param $view
+     * @param array $params
+     * @return false|string
+     */
     protected function renderOnlyView($view, $params = [])
     {
         foreach ($params as $key => $value) {
@@ -27,6 +38,9 @@ class View
         return ob_get_clean();
     }
 
+    /**
+     * @return false|string
+     */
     protected function layoutContent()
     {
         ob_start();

@@ -1,28 +1,38 @@
 <?php
 
-
 namespace app\core;
-
 
 abstract class Model
 {
-    public const RULE_REQUIRED = 'required';
-    public const RULE_EMAIL = 'email';
-    public const RULE_NOT_FOUND = 'not found';
-    public const RULE_MIN = 'min';
-    public const RULE_MATCH = 'match';
-    public const RULE_UNIQUE = 'unique';
-    public const RULE_INCORRECT = 'incorrect';
-    public const RULE_VALID_ROLE = 'role';
+    protected const RULE_REQUIRED = 'required';
+    protected const RULE_EMAIL = 'email';
+    protected const RULE_NOT_FOUND = 'not found';
+    protected const RULE_MIN = 'min';
+    protected const RULE_MATCH = 'match';
+    protected const RULE_UNIQUE = 'unique';
+    protected const RULE_INCORRECT = 'incorrect';
+    protected const RULE_VALID_ROLE = 'role';
 
-    public array $errors = [];
+    private array $errors = [];
 
+    /**
+     * @return string
+     */
     abstract public function tableName(): string;
 
+    /**
+     * @return array
+     */
     abstract public function attributes(): array;
 
+    /**
+     * @return array
+     */
     abstract public function rules(): array;
 
+    /**
+     * @param $data
+     */
     public function loadData($data)
     {
         foreach ($data as $key => $value) {
@@ -33,6 +43,10 @@ abstract class Model
     }
 
     // TODO iskomentarisi metodu
+
+    /**
+     * @return bool
+     */
     public function validate()
     {
         foreach ($this->rules() as $attribute => $rules) {
@@ -68,10 +82,13 @@ abstract class Model
         return empty($this->errors);
     }
 
-
+    /**
+     * @param $attribute
+     * @param $rule
+     * @param array $params
+     */
     protected function addError($attribute, $rule, $params = [])
     {
-
         $message = $this->errorMessages()[$rule] ?? '';
         foreach ($params as $key => $value) {
             $message = str_replace("{{$key}}", $value, $message);
@@ -79,7 +96,10 @@ abstract class Model
         $this->errors[$attribute][] = $message;
     }
 
-    protected function errorMessages()
+    /**
+     * @return string[]
+     */
+    private function errorMessages()
     {
         return [
             self::RULE_REQUIRED => 'This field is required',
@@ -93,17 +113,27 @@ abstract class Model
         ];
     }
 
+    /**
+     * @param $attribute
+     * @return bool
+     */
     public function hasError($attribute)
     {
         return !empty($this->errors[$attribute]);
     }
 
+    /**
+     * @param $attribute
+     * @return mixed
+     */
     public function getFirstError($attribute)
     {
         return $this->errors[$attribute][0];
     }
 
-
+    /**
+     * @return bool
+     */
     public function save()
     {
         $tableName = $this->tableName();
@@ -119,6 +149,10 @@ abstract class Model
         return true;
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function update(int $id)
     {
         $tableName = $this->tableName();
@@ -133,9 +167,12 @@ abstract class Model
         $statement->execute();
 
         return true;
-
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function delete($id)
     {
         $tableName = $this->tableName();
@@ -145,7 +182,10 @@ abstract class Model
         return true;
     }
 
-
+    /**
+     * @param array $where
+     * @return mixed
+     */
     public function findOne(array $where)
     {
         $tableName = $this->tableName();
@@ -160,6 +200,9 @@ abstract class Model
         return $statement->fetchObject();
     }
 
+    /**
+     * @return array
+     */
     public function getAll()
     {
         $tableName = $this->tableName();
@@ -169,7 +212,11 @@ abstract class Model
         return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
-    public function prepare($sql)
+    /**
+     * @param $sql
+     * @return bool|\PDOStatement
+     */
+    private function prepare($sql)
     {
         return Application::$app->db->pdo->prepare($sql);
     }

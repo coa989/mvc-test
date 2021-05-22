@@ -1,11 +1,13 @@
 <?php
 
-
 namespace app\models;
-
 
 use app\core\Model;
 
+/**
+ * Class UserRegister
+ * @package app\models
+ */
 class UserRegister extends Model
 {
     public string $username = '';
@@ -13,17 +15,25 @@ class UserRegister extends Model
     public string $password = '';
     public string $confirmPassword = '';
 
-
+    /**
+     * @return string
+     */
     public function tableName(): string
     {
         return 'users';
     }
 
+    /**
+     * @return array|string[]
+     */
     public function attributes(): array
     {
         return ['username', 'email', 'password'];
     }
 
+    /**
+     * @return array|array[]
+     */
     public function rules(): array
     {
         return [
@@ -34,6 +44,9 @@ class UserRegister extends Model
         ];
     }
 
+    /**
+     * @return bool
+     */
     public function register()
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
