@@ -66,6 +66,12 @@ class User extends Model
         return $user->username;
     }
 
+    public function getId()
+    {
+        $user = $this->findOne(['id' => Application::$app->session->get('user')]);
+        return $user->id;
+    }
+
 
     /**
      * @return string

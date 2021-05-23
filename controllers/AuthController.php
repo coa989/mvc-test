@@ -28,7 +28,7 @@ class AuthController extends Controller
                 Application::$app->response->redirect('/login');
             }
         }
-        return $this->render('register', [
+        return $this->render('auth/register', [
             'model' => $user
         ]);
     }
@@ -46,12 +46,14 @@ class AuthController extends Controller
                 Application::$app->session->setFlash('login', 'You are successfully login');
                 if ((new User())->isAdmin()) {
                     Application::$app->response->redirect('/dashboard');
+                    // nemam ideju zasto je doslo do toga da moram da stavim die() !!!
+                    die();
                 } else {
                     Application::$app->response->redirect('/');
                 }
             }
         }
-        return $this->render('login', [
+        return $this->render('auth/login', [
             'model' => $user
         ]);
     }

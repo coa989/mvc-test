@@ -35,21 +35,10 @@ class UserController extends Controller
     /**
      * @return string|string[]
      */
-    public function dashboard()
-    {
-        $users = $this->user->getAll();
-        return $this->render('dashboard', [
-            'users' => $users
-        ]);
-    }
-
-    /**
-     * @return string|string[]
-     */
     public function show()
     {
         $user = $this->user->findOne(['id' => $_GET['id']]);
-        return $this->render('show', [
+        return $this->render('users/show', [
             'user' => $user
         ]);
     }
@@ -66,7 +55,7 @@ class UserController extends Controller
                 Application::$app->response->redirect('/dashboard');
             }
         }
-        return $this->render('create', [
+        return $this->render('users/create', [
             'user' => $this->user
         ]);
     }
@@ -86,7 +75,7 @@ class UserController extends Controller
             }
         }
 
-        return $this->render('edit', [
+        return $this->render('users/edit', [
             'user' => $this->user,
             'users' => $user
         ]);

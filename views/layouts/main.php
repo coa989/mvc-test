@@ -1,5 +1,8 @@
 <?php
 use app\core\Application;
+use app\models\User;
+
+$user = new User();
 ?>
 <!doctype html>
 <html lang="en">
@@ -34,7 +37,10 @@ use app\core\Application;
             <?php else: ?>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/logout"><?= (new \app\models\User())->getDisplayName() ?> (Logout)</a>
+                    <a class="nav-link" aria-current="page" href="/profile"><?= $user->getDisplayName() ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/logout">Logout</a>
                 </li>
             </ul>
             <?php endif; ?>
