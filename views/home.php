@@ -2,8 +2,8 @@
 /**
  * @var $this \app\core\View
  * @var $posts \app\models\Post
+ * @var $users \app\models\User
  */
-$users = new \app\models\User();
 $this->title = 'Homepage';
 ?>
 <div class="container">

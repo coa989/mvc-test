@@ -35,6 +35,18 @@ class UserController extends Controller
     /**
      * @return string|string[]
      */
+    public function index()
+    {
+        $users = $this->user->getAll();
+
+        return $this->render('users/index', [
+            'users' => $users
+        ]);
+    }
+
+    /**
+     * @return string|string[]
+     */
     public function show()
     {
         $user = $this->user->findOne(['id' => $_GET['id']]);
@@ -74,20 +86,16 @@ class UserController extends Controller
                 Application::$app->response->redirect('/dashboard');
             }
         }
-
         return $this->render('users/edit', [
             'user' => $this->user,
             'users' => $user
         ]);
     }
 
-    /**
-     *
-     */
     public function delete()
     {
         if ($this->user->delete($_GET['id'])) {
-            Application::$app->response->redirect('/dashboard');
+            Application::$app->response->redirect('/users');
         }
     }
 }
