@@ -157,12 +157,28 @@ abstract class Model
         $tableName = $this->tableName();
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
-
         $statement = self::prepare("UPDATE $tableName SET ".implode(',', $params)." WHERE id=:id");
         $statement->bindValue(':id', $id);
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
+        $statement->execute();
+
+        return true;
+    }
+
+    /**
+     * @param $where
+     * @param $column
+     * @return bool
+     */
+    public function updateColumn(array $where, string $column)
+    {
+        $tableName = $this->tableName();
+        $attributes = array_keys($where);
+        $statement = self::prepare("UPDATE $tableName SET $column=:$column WHERE id=:id");
+        $statement->bindValue(":id", $where['id']);
+        $statement->bindValue(":$column", $this->{$column});
         $statement->execute();
 
         return true;
