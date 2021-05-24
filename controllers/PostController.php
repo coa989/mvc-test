@@ -7,6 +7,7 @@ use app\core\Controller;
 use app\core\Request;
 use app\models\Post;
 use app\models\User;
+use Cake\Core\App;
 
 /**
  * Class PostController
@@ -61,6 +62,7 @@ class PostController extends Controller
         if ($request->isPost()) {
             $post->loadData($request->getBody());
             if ($post->validate() && $post->save()) {
+                Application::$app->session->setFlash('success', 'Post has been created, it will be visible when admin approves it.');
                 Application::$app->response->redirect('/');
             }
         }
@@ -79,6 +81,7 @@ class PostController extends Controller
         if ($request->isPost()) {
             $this->post->loadData($request->getBody());
             if ($this->post->validate() && $this->post->update($_GET['id'])) {
+                Application::$app->session->setFlash('success', 'Post has been updated, it will be visible when admin approves it.');
                 if ((new User())->isAdmin()) {
                     Application::$app->response->redirect('/posts');
                 } else {
@@ -95,6 +98,7 @@ class PostController extends Controller
     public function delete()
     {
         if ($this->post->delete($_GET['id'])) {
+            Application::$app->session->setFlash('success', 'Post has been deleted.');
             if ((new User())->isAdmin()) {
                 Application::$app->response->redirect('/posts');
             } else {

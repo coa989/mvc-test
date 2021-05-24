@@ -27,7 +27,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->user = new User();
-        if (!$this->user->isAdmin()) {
+        if (!$this->user->isAdmin() && !$this->user->isOwner($_GET['id'])) {
             throw new ForbiddenException();
         }
     }
@@ -51,7 +51,8 @@ class UserController extends Controller
     {
         $user = $this->user->findOne(['id' => $_GET['id']]);
         return $this->render('users/show', [
-            'user' => $user
+            'user' => $user,
+            'users' => $this->user
         ]);
     }
 
@@ -64,6 +65,7 @@ class UserController extends Controller
         if ($request->isPost()) {
             $this->user->loadData($request->getBody());
             if ($this->user->validate() && $this->user->save()) {
+                Application::$app->session->setFlash('success', 'User has been created.');
                 Application::$app->response->redirect('/dashboard');
             }
         }
@@ -83,7 +85,12 @@ class UserController extends Controller
         if ($request->isPost()) {
             $this->user->loadData($request->getBody());
             if ($this->user->validate() && $this->user->update($user->id)) {
-                Application::$app->response->redirect('/dashboard');
+                Application::$app->session->setFlash('success', 'User info has been updated.');
+                if ($this->user->isAdmin()) {
+                    Application::$app->response->redirect('/users');
+                } else {
+                    Application::$app->response->redirect('/');
+                }
             }
         }
         return $this->render('users/edit', [
@@ -95,6 +102,7 @@ class UserController extends Controller
     public function delete()
     {
         if ($this->user->delete($_GET['id'])) {
+            Application::$app->session->setFlash('success', 'User has been deleted');
             Application::$app->response->redirect('/users');
         }
     }

@@ -51,10 +51,20 @@ class User extends Model
     /**
      * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         $user = $this->findOne(['id' => Application::$app->session->get('user')]);
         return $user->role === 'admin';
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function isOwner($id): bool
+    {
+        $user = $this->findOne(['id' => Application::$app->session->get('user')]);
+        return $user->id === $id;
     }
 
     /**

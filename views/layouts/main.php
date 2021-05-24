@@ -43,7 +43,7 @@ $user = new User();
             <?php else: ?>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/profile?id=<?= $user->getId() ?>"><?= $user->getDisplayName() ?></a>
+                    <a class="nav-link" aria-current="page" href="/users/show?id=<?= $user->getId() ?>"><?= $user->getDisplayName() ?></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/logout">Logout</a>
@@ -54,9 +54,9 @@ $user = new User();
     </div>
 </nav>
 <div class="container">
-    <?php if (Application::$app->session->getFlash('login')): ?>
+    <?php if (Application::$app->session->getFlash('success')): ?>
     <div class="alert alert-success">
-        <?= Application::$app->session->getFlash('login') ?>
+        <?= Application::$app->session->getFlash('success') ?>
     </div>
     <?php endif; ?>
     {{content}}

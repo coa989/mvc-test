@@ -72,6 +72,7 @@ class AdminController extends Controller
     public function approvePost()
     {
         if ((new Post)->approve()) {
+            Application::$app->session->setFlash('success', 'Post has been approved.');
             $id = $_GET['id'];
             Application::$app->response->redirect("show?id=$id");
         }
