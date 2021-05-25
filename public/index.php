@@ -26,6 +26,7 @@ $app->router->post('/users/create', [UserController::class, 'create']);
 $app->router->get('/users/edit', [UserController::class, 'edit']);
 $app->router->post('/users/edit', [UserController::class, 'edit']);
 $app->router->get('/users/delete', [UserController::class, 'delete']);
+$app->router->get('/users/posts', [UserController::class, 'posts']);
 /** AuthController routes */
 $app->router->get('/login', [AuthController::class, 'login']);
 $app->router->post('/login', [AuthController::class, 'login']);

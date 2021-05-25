@@ -15,12 +15,10 @@ $this->title = 'Show User';
             <h5 class="card-title">Password: <?= $user->password ?></h5>
             <p class="card-text">Created: <?= $user->created_at ?></p>
             <p class="card-text">Modified: <?= $user->updated_at ?></p>
-            <a href="/users/posts?id=<?= $user->id ?>" class="btn btn-info  mb-2 btn-block" role="button">My Posts</></a>
+            <a href="/users/posts?id=<?= $user->id ?>" class="btn btn-info  mb-2 btn-block" role="button">User Posts</></a>
             <a href="/users/edit?id=<?= $user->id ?>" class="btn btn-secondary  mb-2 btn-block" role="button">Edit</></a>
             <?php if ($users->isAdmin()): ?>
-            <a href="/users/delete?id=<?= $user->id ?>" class="btn btn-danger mb-2 btn-block" role="button">Delete</></a>
             <?php endif; ?>
-            <a href="/users" class="btn btn-primary mb-2 btn-block" role="button">Back</></a>
         </div>
     </div>
 </div>

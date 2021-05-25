@@ -6,6 +6,7 @@ use app\core\Application;
 use app\core\Controller;
 use app\core\exceptions\ForbiddenException;
 use app\core\Request;
+use app\models\Post;
 use app\models\User;
 
 /**
@@ -102,8 +103,20 @@ class UserController extends Controller
     public function delete()
     {
         if ($this->user->delete($_GET['id'])) {
-            Application::$app->session->setFlash('success', 'User has been deleted');
+            Application::$app->session->setFlash('success', 'User has been deleted.');
             Application::$app->response->redirect('/users');
         }
+    }
+
+    public function posts()
+    {
+        $posts = (new Post())->find(['user_id' => $_GET['id']]);
+        if (empty($posts)) {
+            Application::$app->session->setFlash('failure', 'This user has no posts!');
+        }
+        return $this->render('/users/posts', [
+            'posts' => $posts,
+            'users' => $this->user
+        ]);
     }
 }

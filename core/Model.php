@@ -42,8 +42,6 @@ abstract class Model
         }
     }
 
-    // TODO iskomentarisi metodu
-
     /**
      * @return bool
      */
@@ -196,7 +194,7 @@ abstract class Model
         $statement->execute();
         return true;
     }
-
+    // TODO findOne and find make one method
     /**
      * @param array $where
      * @return mixed
@@ -213,6 +211,26 @@ abstract class Model
         $statement->execute();
 
         return $statement->fetchObject();
+    }
+
+    /**
+     * @param array $where
+     * @return array
+     */
+    public function find(array $where)
+    {
+        $tableName = $this->tableName();
+        $attributes = array_keys($where);
+        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+
+        foreach ($where as $key => $value) {
+            $statement->bindValue(":$key", $value);
+        }
+
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
     /**
@@ -235,9 +253,4 @@ abstract class Model
     {
         return Application::$app->db->pdo->prepare($sql);
     }
-
-
-
-
-
 }

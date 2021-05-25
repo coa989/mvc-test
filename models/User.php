@@ -82,7 +82,6 @@ class User extends Model
         return $user->id;
     }
 
-
     /**
      * @return string
      */
@@ -111,5 +110,4 @@ class User extends Model
             'role' => [self::RULE_REQUIRED, self::RULE_VALID_ROLE]
         ];
     }
-
 }

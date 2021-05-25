@@ -58,6 +58,10 @@ $user = new User();
     <div class="alert alert-success">
         <?= Application::$app->session->getFlash('success') ?>
     </div>
+    <?php elseif (Application::$app->session->getFlash('failure')): ?>
+        <div class="alert alert-danger">
+            <?= Application::$app->session->getFlash('failure') ?>
+        </div>
     <?php endif; ?>
     {{content}}
 </div>
