@@ -108,6 +108,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @return string|string[]
+     */
     public function posts()
     {
         $posts = (new Post())->find(['user_id' => $_GET['id']]);

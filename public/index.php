@@ -4,6 +4,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 use app\controllers\AdminController;
 use app\controllers\AuthController;
+use app\controllers\CommentController;
 use app\controllers\PostController;
 use app\controllers\ProfileController;
 use app\controllers\UserController;
@@ -41,6 +42,8 @@ $app->router->post('/posts/create', [PostController::class, 'create']);
 $app->router->get('/posts/edit', [PostController::class, 'edit']);
 $app->router->post('/posts/edit', [PostController::class, 'edit']);
 $app->router->get('/posts/delete', [PostController::class, 'delete']);
+/** CommentController routes */
+$app->router->post('/comments/create', [CommentController::class, 'create']);
 /** ProfileController routes */
 $app->router->get('/profile', [ProfileController::class, 'index']);
 

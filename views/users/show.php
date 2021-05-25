@@ -18,6 +18,7 @@ $this->title = 'Show User';
             <a href="/users/posts?id=<?= $user->id ?>" class="btn btn-info  mb-2 btn-block" role="button">User Posts</></a>
             <a href="/users/edit?id=<?= $user->id ?>" class="btn btn-secondary  mb-2 btn-block" role="button">Edit</></a>
             <?php if ($users->isAdmin()): ?>
+            <a href="/users/delete?id=<?= $user->id ?>" class="btn btn-danger mb-2 btn-block" role="button">Delete</></a>
             <?php endif; ?>
         </div>
     </div>
