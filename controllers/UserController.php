@@ -6,6 +6,7 @@ use app\core\Application;
 use app\core\Controller;
 use app\core\exceptions\ForbiddenException;
 use app\core\Request;
+use app\models\Post;
 use app\models\User;
 
 /**
@@ -27,9 +28,21 @@ class UserController extends Controller
     public function __construct()
     {
         $this->user = new User();
-        if (!$this->user->isAdmin()) {
+        if (!$this->user->isAdmin() && !$this->user->isOwner($_GET['id'])) {
             throw new ForbiddenException();
         }
+    }
+
+    /**
+     * @return string|string[]
+     */
+    public function index()
+    {
+        $users = $this->user->getAll();
+
+        return $this->render('users/index', [
+            'users' => $users
+        ]);
     }
 
     /**
@@ -39,7 +52,8 @@ class UserController extends Controller
     {
         $user = $this->user->findOne(['id' => $_GET['id']]);
         return $this->render('users/show', [
-            'user' => $user
+            'user' => $user,
+            'users' => $this->user
         ]);
     }
 
@@ -52,6 +66,7 @@ class UserController extends Controller
         if ($request->isPost()) {
             $this->user->loadData($request->getBody());
             if ($this->user->validate() && $this->user->save()) {
+                Application::$app->session->setFlash('success', 'User has been created.');
                 Application::$app->response->redirect('/dashboard');
             }
         }
@@ -71,23 +86,37 @@ class UserController extends Controller
         if ($request->isPost()) {
             $this->user->loadData($request->getBody());
             if ($this->user->validate() && $this->user->update($user->id)) {
-                Application::$app->response->redirect('/dashboard');
+                Application::$app->session->setFlash('success', 'User info has been updated.');
+                if ($this->user->isAdmin()) {
+                    Application::$app->response->redirect('/users');
+                } else {
+                    Application::$app->response->redirect('/');
+                }
             }
         }
-
         return $this->render('users/edit', [
             'user' => $this->user,
             'users' => $user
         ]);
     }
 
-    /**
-     *
-     */
     public function delete()
     {
         if ($this->user->delete($_GET['id'])) {
-            Application::$app->response->redirect('/dashboard');
+            Application::$app->session->setFlash('success', 'User has been deleted.');
+            Application::$app->response->redirect('/users');
         }
+    }
+
+    public function posts()
+    {
+        $posts = (new Post())->find(['user_id' => $_GET['id']]);
+        if (empty($posts)) {
+            Application::$app->session->setFlash('failure', 'This user has no posts!');
+        }
+        return $this->render('/users/posts', [
+            'posts' => $posts,
+            'users' => $this->user
+        ]);
     }
 }

@@ -25,6 +25,7 @@ class AuthController extends Controller
         if ($request->isPost()) {
             $user->loadData($request->getBody());
             if ($user->validate() && $user->register()) {
+                Application::$app->session->setFlash('success', 'You are successfully created account, you can now login');
                 Application::$app->response->redirect('/login');
             }
         }
@@ -43,7 +44,7 @@ class AuthController extends Controller
         if ($request->isPost()) {
             $user->loadData($request->getBody());
             if ($user->validate() && $user->login()) {
-                Application::$app->session->setFlash('login', 'You are successfully login');
+                Application::$app->session->setFlash('success', 'You are successfully login');
                 if ((new User())->isAdmin()) {
                     Application::$app->response->redirect('/dashboard');
                     // nemam ideju zasto je doslo do toga da moram da stavim die() !!!

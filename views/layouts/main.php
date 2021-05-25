@@ -21,9 +21,15 @@ $user = new User();
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <?php if ($user->isAdmin()): ?>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+                </li>
+                <?php else: ?>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
+                <?php endif ?>
             </ul>
             <?php if (Application::$app->session->isGuest()): ?>
             <ul class="navbar-nav ml-auto">
@@ -37,7 +43,7 @@ $user = new User();
             <?php else: ?>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/profile"><?= $user->getDisplayName() ?></a>
+                    <a class="nav-link" aria-current="page" href="/users/show?id=<?= $user->getId() ?>"><?= $user->getDisplayName() ?></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/logout">Logout</a>
@@ -48,10 +54,14 @@ $user = new User();
     </div>
 </nav>
 <div class="container">
-    <?php if (Application::$app->session->getFlash('login')): ?>
+    <?php if (Application::$app->session->getFlash('success')): ?>
     <div class="alert alert-success">
-        <?= Application::$app->session->getFlash('login') ?>
+        <?= Application::$app->session->getFlash('success') ?>
     </div>
+    <?php elseif (Application::$app->session->getFlash('failure')): ?>
+        <div class="alert alert-danger">
+            <?= Application::$app->session->getFlash('failure') ?>
+        </div>
     <?php endif; ?>
     {{content}}
 </div>

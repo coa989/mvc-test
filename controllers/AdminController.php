@@ -4,8 +4,11 @@
 namespace app\controllers;
 
 
+use app\core\Application;
 use app\core\Controller;
 use app\core\exceptions\ForbiddenException;
+use app\core\Request;
+use app\models\Post;
 use app\models\User;
 
 /**
@@ -40,5 +43,38 @@ class AdminController extends Controller
         return $this->render('admin/dashboard', [
             'users' => $users
         ]);
+    }
+
+    /**
+     * @return string|string[]
+     */
+    public function users()
+    {
+        $users = $this->user->getAll();
+
+        return $this->render('admin/users', [
+            'users' => $users
+        ]);
+    }
+
+    /**
+     * @return string|string[]
+     */
+    public function posts()
+    {
+        $posts = (new Post())->getAll();
+        return $this->render('admin/posts', [
+            'posts' => $posts,
+            'users' => $this->user
+        ]);
+    }
+
+    public function approvePost()
+    {
+        if ((new Post)->approve()) {
+            Application::$app->session->setFlash('success', 'Post has been approved.');
+            $id = $_GET['id'];
+            Application::$app->response->redirect("show?id=$id");
+        }
     }
 }   
