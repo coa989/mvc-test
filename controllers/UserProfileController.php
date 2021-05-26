@@ -13,7 +13,7 @@ use app\models\User;
  * Class ProfileController
  * @package app\controllers
  */
-class ProfileController extends Controller
+class UserProfileController extends Controller
 {
     /**
      * ProfileController constructor.

@@ -4,9 +4,9 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 use app\controllers\AdminController;
 use app\controllers\AuthController;
-use app\controllers\CommentController;
+use app\controllers\PostCommentController;
 use app\controllers\PostController;
-use app\controllers\ProfileController;
+use app\controllers\UserProfileController;
 use app\controllers\UserController;
 use app\core\Application;
 
@@ -20,6 +20,8 @@ $app->router->get('/dashboard', [AdminController::class, 'index']);
 $app->router->get('/users', [AdminController::class, 'users']);
 $app->router->get('/posts', [AdminController::class, 'posts']);
 $app->router->get('/posts/approve', [AdminController::class, 'approvePost']);
+$app->router->get('/comments', [AdminController::class, 'comments']);
+$app->router->get('/comments/approve', [AdminController::class, 'ApproveComment']);
 /** UserController routes */
 $app->router->get('/users/show', [UserController::class, 'show']);
 $app->router->get('/users/create', [UserController::class, 'create']);
@@ -43,8 +45,11 @@ $app->router->get('/posts/edit', [PostController::class, 'edit']);
 $app->router->post('/posts/edit', [PostController::class, 'edit']);
 $app->router->get('/posts/delete', [PostController::class, 'delete']);
 /** CommentController routes */
-$app->router->post('/comments/create', [CommentController::class, 'create']);
+$app->router->post('/comments/create', [PostCommentController::class, 'create']);
+$app->router->get('/comments/edit', [PostCommentController::class, 'edit']);
+$app->router->post('/comments/edit', [PostCommentController::class, 'edit']);
+$app->router->get('/comments/delete', [PostCommentController::class, 'delete']);
 /** ProfileController routes */
-$app->router->get('/profile', [ProfileController::class, 'index']);
+$app->router->get('/profile', [UserProfileController::class, 'index']);
 
 $app->run();

@@ -2,13 +2,14 @@
 /** @var $post \app\models\Post
  *  @var $users \app\models\User
  *  @var $this \app\core\View
- *  @var $comments \app\models\Comment
+ *  @var $comments \app\models\Comment // only for this post
+ *  @var $comment \app\models\Comment // object Comment
  */ // TODO implement comments errors
-$this->title = 'Posts'
+$this->title = 'Posts';
 ?>
 <div class="container">
-    <h3><?= $post->title ?></h3>
-    <h5> <?= $post->body ?></h5>
+    <h1><?= $post->title ?></h1>
+    <h3> <?= $post->body ?></h3>
     <p>Author: <?= $users->findOne(['id' => $post->user_id])->username ?></p>
     <p>Created: <?= $post->created_at ?></p>
     <?php if ($users->isAdmin()): ?>
@@ -29,10 +30,28 @@ $this->title = 'Posts'
     <form action="/comments/create" method="post">
         <div class="form-group">
             <hr>
-            <textarea placeholder="Type Your Comment Here" type="text" name="body" class="form-control"></textarea>
+            <textarea placeholder="Type Your Comment Here" name="body" class="form-control <?= $comment->hasError('body') ? 'is-invalid' : '' ?>"></textarea>
+            <span class="invalid-feedback"><?= $comment->getFirstError('body') ?></span>
             <input type="hidden" name="user_id" value="<?= $users->getId() ?>">
             <input type="hidden" name="post_id" value="<?= $post->id ?>">
         </div>
         <button class="btn btn-primary mt-2" type="submit">Post Comment</button>
     </form>
+</div>
+<div class="container">
+    <h3>All Comments</h3>
+    <?php foreach ($comments as $comment): ?>
+        <?php if ($comment->approved): ?>
+            <div class="card">
+                <p><?= $users->findOne(['id' => $comment->user_id])->username ?></p>
+                <h4><?= $comment->body ?></h4>
+                <?php if ($users->isOwner($comment->user_id)): ?>
+                <div class="container">
+                    <a href="/comments/edit?id=<?= $comment->id ?>"><button class="btn btn-primary">Edit</button></a>
+                    <a href="/comments/delete?id=<?= $comment->id ?>"><button class="btn btn-danger">Delete</button></a>
+                </div>
+                <?php endif; ?>
+            </div>
+        <?php endif;
+    endforeach; ?>
 </div>

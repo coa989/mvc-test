@@ -27,6 +27,26 @@ class Comment extends Model
     }
 
     /**
+     * @param int $id
+     * @return bool
+     */
+    public function update($id)
+    {
+        parent::update($id);
+        return true;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete($id)
+    {
+        parent::delete($id);
+        return true;
+    }
+
+    /**
      * @return string
      */
     public function tableName(): string
@@ -41,7 +61,7 @@ class Comment extends Model
     {
         return ['body', 'user_id', 'post_id', 'approved'];
     }
-
+    // TODO implement comment validation rules
     /**
      * @return array
      */
@@ -51,4 +71,16 @@ class Comment extends Model
             'body' => [self::RULE_REQUIRED]
         ];
     }
+    // TODO move method to base model?
+    /**
+     * @return bool
+     */
+    public function approve()
+    {
+        $this->approved = filter_var($_GET['approved'], FILTER_VALIDATE_BOOL);
+        parent::updateColumn(['id' => $_GET['id']], 'approved');
+        return true;
+    }
+
+
 }
