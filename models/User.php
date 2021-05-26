@@ -51,10 +51,20 @@ class User extends Model
     /**
      * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         $user = $this->findOne(['id' => Application::$app->session->get('user')]);
         return $user->role === 'admin';
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function isOwner($id): bool
+    {
+        $user = $this->findOne(['id' => Application::$app->session->get('user')]);
+        return $user->id === $id;
     }
 
     /**
@@ -66,6 +76,11 @@ class User extends Model
         return $user->username;
     }
 
+    public function getId()
+    {
+        $user = $this->findOne(['id' => Application::$app->session->get('user')]);
+        return $user->id;
+    }
 
     /**
      * @return string
@@ -95,5 +110,4 @@ class User extends Model
             'role' => [self::RULE_REQUIRED, self::RULE_VALID_ROLE]
         ];
     }
-
 }

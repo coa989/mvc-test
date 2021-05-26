@@ -1,6 +1,24 @@
 <?php
-/** @var $this \app\core\View */
-$user = (new \app\models\User())->findOne(['id' => $_SESSION['user']]);
+/**
+ * @var $this \app\core\View
+ * @var $posts \app\models\Post
+ * @var $users \app\models\User
+ */
 $this->title = 'Homepage';
 ?>
-<h1>Welcome <?= empty($user) ? 'Guest' : $user->username ?> </h1>
+<div class="container">
+    <a href="posts/create"><button class="btn btn-success">Create Post</button></a>
+    <?php foreach ($posts as $post) :
+        if ($post->approved):?>
+        <h2><a href="/posts/show?id=<?= $post->id ?>"><?= $post->title ?></a></h2>
+        <h5><?= $post->body ?></h5>
+            <p>Author:
+                <?php if ($users->isOwner($post->user_id)): ?>
+                <a href="/users/show?id=<?= ($users->findOne(['id' => $post->user_id])->id) ?>"><?= ($users->findOne(['id' => $post->user_id]))->username ?></a>
+                <?php else: ?>
+                <a href="/profile?id=<?= ($users->findOne(['id' => $post->user_id])->id) ?>"><?= ($users->findOne(['id' => $post->user_id]))->username ?></a>
+                <?php endif; ?>
+            </p>
+        <?php endif;
+    endforeach; ?>
+</div>

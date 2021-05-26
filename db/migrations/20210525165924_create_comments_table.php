@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
-final class CreateUsersTable extends AbstractMigration
+final class CreateCommentsTable extends AbstractMigration
 {
     /**
      * Change Method.
@@ -18,13 +18,15 @@ final class CreateUsersTable extends AbstractMigration
      */
     public function change(): void
     {
-        $users = $this->table('users');
-        $users->addColumn('username', 'string', ['limit' => 40])
-            ->addColumn('role', 'string', ['default' => 'user'])
-            ->addColumn('email', 'string', ['limit' => 40])
-            ->addColumn('password', 'string', ['limit' => 100])
+        $comments = $this->table('comments');
+        $comments->addColumn('user_id', 'integer')
+            ->addColumn('post_id', 'integer')
+            ->addColumn('body', 'text')
+            ->addColumn('approved', 'bit', ['default' => false])
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('updated_at', 'timestamp', array('default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP'))
+            ->addForeignKey('user_id', 'users', 'id', ['delete' => 'CASCADE'])
+            ->addForeignKey('post_id', 'posts', 'id', ['delete' => 'CASCADE'])
             ->create();
     }
 }

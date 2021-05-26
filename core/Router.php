@@ -52,9 +52,7 @@ class Router
     {
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
-
         $callback = $this->routes[$method][$path] ?? false;
-
         // ako callback ne postoji u routes array vracamo NotFoundException
         if ($callback === false) {
             throw new NotFoundException();

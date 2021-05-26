@@ -8,7 +8,6 @@ namespace app\core;
  */
 class Session
 {
-    // TODO Implement flash msg for different actions
     private const FLASH_KEY = 'flashMessages';
 
     /**

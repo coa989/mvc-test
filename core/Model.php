@@ -42,8 +42,6 @@ abstract class Model
         }
     }
 
-    // TODO iskomentarisi metodu
-
     /**
      * @return bool
      */
@@ -140,7 +138,6 @@ abstract class Model
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => ":$attr", $attributes);
         $statement = self::prepare("INSERT INTO $tableName (".implode(',', $attributes).") VALUES (".implode(',', $params).")");
-
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
@@ -158,12 +155,28 @@ abstract class Model
         $tableName = $this->tableName();
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => "$attr = :$attr", $attributes);
-
         $statement = self::prepare("UPDATE $tableName SET ".implode(',', $params)." WHERE id=:id");
         $statement->bindValue(':id', $id);
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
+        $statement->execute();
+
+        return true;
+    }
+
+    /**
+     * @param $where
+     * @param $column
+     * @return bool
+     */
+    public function updateColumn(array $where, string $column)
+    {
+        $tableName = $this->tableName();
+        $attributes = array_keys($where);
+        $statement = self::prepare("UPDATE $tableName SET $column=:$column WHERE id=:id");
+        $statement->bindValue(":id", $where['id']);
+        $statement->bindValue(":$column", $this->{$column});
         $statement->execute();
 
         return true;
@@ -181,7 +194,7 @@ abstract class Model
         $statement->execute();
         return true;
     }
-
+    // TODO findOne and find make one method
     /**
      * @param array $where
      * @return mixed
@@ -198,6 +211,26 @@ abstract class Model
         $statement->execute();
 
         return $statement->fetchObject();
+    }
+
+    /**
+     * @param array $where
+     * @return array
+     */
+    public function find(array $where)
+    {
+        $tableName = $this->tableName();
+        $attributes = array_keys($where);
+        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+
+        foreach ($where as $key => $value) {
+            $statement->bindValue(":$key", $value);
+        }
+
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
     /**
@@ -220,9 +253,4 @@ abstract class Model
     {
         return Application::$app->db->pdo->prepare($sql);
     }
-
-
-
-
-
 }
