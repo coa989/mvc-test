@@ -8,6 +8,7 @@ use app\core\Application;
 use app\core\Controller;
 use app\core\exceptions\ForbiddenException;
 use app\core\Request;
+use app\models\Comment;
 use app\models\Post;
 use app\models\User;
 
@@ -69,12 +70,33 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * @return string|string[]
+     */
+    public function comments()
+    {
+        $comments = (new Comment())->find(['post_id' => $_GET['id']]);
+        return $this->render('admin/comments', [
+            'comments' => $comments,
+            'users' => new User()
+        ]);
+    }
+
     public function approvePost()
     {
         if ((new Post)->approve()) {
             Application::$app->session->setFlash('success', 'Post has been approved.');
             $id = $_GET['id'];
             Application::$app->response->redirect("show?id=$id");
+        }
+    }
+
+    public function approveComment()
+    {
+        if ((new Comment())->approve()) {
+            Application::$app->session->setFlash('success', 'Post has been approved.');
+            $id = $_GET['post'];
+            Application::$app->response->redirect("/comments?id=$id");
         }
     }
 }   

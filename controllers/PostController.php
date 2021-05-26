@@ -4,10 +4,11 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\exceptions\ForbiddenException;
 use app\core\Request;
+use app\models\Comment;
 use app\models\Post;
 use app\models\User;
-use Cake\Core\App;
 
 /**
  * Class PostController
@@ -36,7 +37,7 @@ class PostController extends Controller
         $posts = $this->post->getAll();
         return $this->render('home', [
             'posts' => $posts,
-            'users' => new User()
+            'users' => new User(),
         ]);
     }
 
@@ -46,9 +47,12 @@ class PostController extends Controller
     public function show()
     {
         $post = $this->post->findOne(['id' => $_GET['id']]);
+        $comments = new Comment();
         return $this->render('/posts/show', [
             'post' => $post,
-            'users' => new User()
+            'users' => new User(),
+            'comment' => $comments,
+            'comments' => $comments->find(['post_id' => $post->id])
         ]);
     }
 
@@ -74,10 +78,15 @@ class PostController extends Controller
     /**
      * @param Request $request
      * @return string|string[]
+     * @throws ForbiddenException
      */
     public function edit(Request $request)
     {
         $post = $this->post->findOne(['id' => $_GET['id']]);
+        $user = new User();
+        if (!$user->isOwner($post->user_id) && !$user->isAdmin()) {
+            throw new ForbiddenException();
+        }
         if ($request->isPost()) {
             $this->post->loadData($request->getBody());
             if ($this->post->validate() && $this->post->update($_GET['id'])) {
@@ -95,8 +104,16 @@ class PostController extends Controller
         ]);
     }
 
+    /**
+     * @throws ForbiddenException
+     */
     public function delete()
     {
+        $post = $this->post->findOne(['id' => $_GET['id']]);
+        $user = new User();
+        if (!$user->isOwner($post->user_id) && !$user->isAdmin()) {
+            throw new ForbiddenException();
+        }
         if ($this->post->delete($_GET['id'])) {
             Application::$app->session->setFlash('success', 'Post has been deleted.');
             if ((new User())->isAdmin()) {

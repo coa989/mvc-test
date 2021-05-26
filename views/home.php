@@ -12,7 +12,13 @@ $this->title = 'Homepage';
         if ($post->approved):?>
         <h2><a href="/posts/show?id=<?= $post->id ?>"><?= $post->title ?></a></h2>
         <h5><?= $post->body ?></h5>
-            <p>Author: <a href="/profile?id=<?= ($users->findOne(['id' => $post->user_id])->id) ?>"><?= ($users->findOne(['id' => $post->user_id]))->username ?></a></p>
+            <p>Author:
+                <?php if ($users->isOwner($post->user_id)): ?>
+                <a href="/users/show?id=<?= ($users->findOne(['id' => $post->user_id])->id) ?>"><?= ($users->findOne(['id' => $post->user_id]))->username ?></a>
+                <?php else: ?>
+                <a href="/profile?id=<?= ($users->findOne(['id' => $post->user_id])->id) ?>"><?= ($users->findOne(['id' => $post->user_id]))->username ?></a>
+                <?php endif; ?>
+            </p>
         <?php endif;
     endforeach; ?>
 </div>
