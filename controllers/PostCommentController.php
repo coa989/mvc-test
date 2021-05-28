@@ -10,8 +10,16 @@ use app\models\Comment;
 use app\models\Post;
 use app\models\User;
 
+/**
+ * Class PostCommentController
+ * @package app\controllers
+ */
 class PostCommentController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return string|string[]
+     */
     public function create(Request $request)
     {
         $comments = new Comment();
@@ -35,6 +43,11 @@ class PostCommentController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return string|string[]
+     * @throws ForbiddenException
+     */
     public function edit(Request $request)
     {
         $comments = new Comment();

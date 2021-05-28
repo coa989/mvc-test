@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\controllers;
-
 
 use app\core\Application;
 use app\core\Controller;
@@ -51,10 +49,8 @@ class AdminController extends Controller
      */
     public function users()
     {
-        $users = $this->user->getAll();
-
         return $this->render('admin/users', [
-            'users' => $users
+            'users' => $users = $this->user->getAll()
         ]);
     }
 
@@ -63,9 +59,9 @@ class AdminController extends Controller
      */
     public function posts()
     {
-        $posts = (new Post())->getAll();
+
         return $this->render('admin/posts', [
-            'posts' => $posts,
+            'posts' => (new Post())->getAll(),
             'users' => $this->user
         ]);
     }
@@ -75,9 +71,8 @@ class AdminController extends Controller
      */
     public function comments()
     {
-        $comments = (new Comment())->find(['post_id' => $_GET['id']]);
         return $this->render('admin/comments', [
-            'comments' => $comments,
+            'comments' => (new Comment())->find(['post_id' => $_GET['id']]),
             'users' => new User()
         ]);
     }

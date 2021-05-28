@@ -6,7 +6,7 @@
 $this->title = 'Comments';
 ?>
 <div class="container">
-    <h3>All Comments ({num})</h3>
+    <h3>All Comments (<?= count($comments) ?>)</h3>
     <?php foreach ($comments as $comment): ?>
             <p>Author: <?= $users->findOne(['id' => $comment->user_id])->username ?></p>
             <h4><?= $comment->body ?></h4>

@@ -173,7 +173,6 @@ abstract class Model
     public function updateColumn(array $where, string $column)
     {
         $tableName = $this->tableName();
-        $attributes = array_keys($where);
         $statement = self::prepare("UPDATE $tableName SET $column=:$column WHERE id=:id");
         $statement->bindValue(":id", $where['id']);
         $statement->bindValue(":$column", $this->{$column});

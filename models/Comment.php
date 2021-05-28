@@ -82,5 +82,21 @@ class Comment extends Model
         return true;
     }
 
+    /**
+     * @param string $postId
+     * @return int
+     */
+    public function countApproved(string $postId)
+    {
+        $comments = $this->find(['post_id' => $postId]);
+        $count = 0;
+        foreach ($comments as $comment) {
+            if ($comment->approved) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
 
 }

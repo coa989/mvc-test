@@ -55,7 +55,7 @@ $this->title = 'Posts';
     </form>
 </div>
 <div class="container">
-    <h3>All Comments</h3>
+    <h3>All Comments (<?= $comment->countApproved($post->id) ?>)</h3>
     <?php foreach ($comments as $comment): ?>
         <?php if ($comment->approved): ?>
             <div class="card">
