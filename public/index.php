@@ -6,6 +6,7 @@ use app\controllers\AdminController;
 use app\controllers\AuthController;
 use app\controllers\PostCommentController;
 use app\controllers\PostController;
+use app\controllers\PostLikeController;
 use app\controllers\UserProfileController;
 use app\controllers\UserController;
 use app\core\Application;
@@ -49,6 +50,9 @@ $app->router->post('/comments/create', [PostCommentController::class, 'create'])
 $app->router->get('/comments/edit', [PostCommentController::class, 'edit']);
 $app->router->post('/comments/edit', [PostCommentController::class, 'edit']);
 $app->router->get('/comments/delete', [PostCommentController::class, 'delete']);
+
+$app->router->post('/likes/create', [PostLikeController::class, 'create']);
+$app->router->post('/likes/delete', [PostLikeController::class, 'delete']);
 /** ProfileController routes */
 $app->router->get('/profile', [UserProfileController::class, 'index']);
 
