@@ -61,7 +61,7 @@ class Comment extends Model
     {
         return ['body', 'user_id', 'post_id', 'approved'];
     }
-    // TODO implement comment validation rules
+
     /**
      * @return array
      */

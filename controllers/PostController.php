@@ -7,6 +7,7 @@ use app\core\Controller;
 use app\core\exceptions\ForbiddenException;
 use app\core\Request;
 use app\models\Comment;
+use app\models\Like;
 use app\models\Post;
 use app\models\User;
 
@@ -52,7 +53,8 @@ class PostController extends Controller
             'post' => $post,
             'users' => new User(),
             'comment' => $comments,
-            'comments' => $comments->find(['post_id' => $post->id])
+            'comments' => $comments->find(['post_id' => $post->id]),
+            'likes' => new Like()
         ]);
     }
 

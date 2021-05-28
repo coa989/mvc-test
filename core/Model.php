@@ -203,7 +203,7 @@ abstract class Model
     {
         $tableName = $this->tableName();
         $attributes = array_keys($where);
-        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
         $statement = $this->prepare("SELECT * FROM $tableName WHERE $sql");
         foreach ($where as $key => $value) {
             $statement->bindValue(":$key", $value);
@@ -221,7 +221,7 @@ abstract class Model
     {
         $tableName = $this->tableName();
         $attributes = array_keys($where);
-        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
         $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
 
         foreach ($where as $key => $value) {
