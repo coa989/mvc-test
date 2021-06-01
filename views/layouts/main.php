@@ -23,11 +23,11 @@ $user = new User();
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if ($user->isAdmin()): ?>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+                    <a class="nav-link" aria-current="page" href="/admin">Dashboard</a>
                 </li>
                 <?php else: ?>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" aria-current="page" href="/posts">Posts</a>
                 </li>
                 <?php endif ?>
             </ul>

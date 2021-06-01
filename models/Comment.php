@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\models;
-
 
 use app\core\Model;
 
@@ -97,6 +95,5 @@ class Comment extends Model
         }
         return $count;
     }
-
 
 }

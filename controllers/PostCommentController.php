@@ -7,6 +7,7 @@ use app\core\Controller;
 use app\core\exceptions\ForbiddenException;
 use app\core\Request;
 use app\models\Comment;
+use app\models\Like;
 use app\models\Post;
 use app\models\User;
 
@@ -35,7 +36,8 @@ class PostCommentController extends Controller
                 'post' => $post,
                 'users' => new User(),
                 'comment' =>$comments,
-                'comments' => $comment
+                'comments' => $comment,
+                'likes' => new Like()
             ]);
         }
         return $this->render('/posts/show', [
@@ -60,10 +62,10 @@ class PostCommentController extends Controller
             $comments->loadData($request->getBody());
             if ($comments->validate() && $comments->update($comment->id)) {
                 Application::$app->session->setFlash('success', 'Comment has been updated, it will be visible when admin approves it');
-                if ($user->isOwner($comment->user_id)) {
-                    Application::$app->response->redirect("/posts/show?id=$comment->post_id");
+                if ($user->isAdmin()) {
+                    Application::$app->response->redirect("/admin/comments?id=$comment->post_id");
                 } else {
-                    Application::$app->response->redirect("/comments?id=$comment->post_id");
+                    Application::$app->response->redirect("/posts/show?id=$comment->post_id");
                 }
             }
         }
@@ -85,10 +87,10 @@ class PostCommentController extends Controller
         }
         if ($comments->delete($_GET['id'])) {
             Application::$app->session->setFlash('success', 'Comment has been deleted.');
-            if ($user->isOwner($comment->user_id)) {
-                Application::$app->response->redirect("/posts/show?id=$comment->post_id");
+            if ($user->isAdmin()) {
+                Application::$app->response->redirect("/admin/comments?id=$comment->post_id");
             } else {
-                Application::$app->response->redirect("/comments?id=$comment->post_id");
+                Application::$app->response->redirect("/posts/show?id=$comment->post_id");
             }
         }
     }

@@ -11,7 +11,13 @@ $this->title = 'Posts';
 <div class="container">
     <h1><?= $post->title ?></h1>
     <h3> <?= $post->body ?></h3>
-    <p>Author: <?= $users->findOne(['id' => $post->user_id])->username ?></p>
+    <p>Author:
+        <?php if ($users->isOwner($post->user_id) || $users->isAdmin()): ?>
+            <a href="/users/show?id=<?= ($users->findOne(['id' => $post->user_id])->id) ?>"><?= ($users->findOne(['id' => $post->user_id]))->username ?></a>
+        <?php else: ?>
+            <a href="/profile?id=<?= ($users->findOne(['id' => $post->user_id])->id) ?>"><?= ($users->findOne(['id' => $post->user_id]))->username ?></a>
+        <?php endif; ?>
+    </p>
     <p>Created: <?= $post->created_at ?></p>
     <?php if (!$likes->findOne(['post_id' => "$post->id",'user_id' => $users->getId()])): ?>
         <form action="/likes/create" method="post">
@@ -30,9 +36,9 @@ $this->title = 'Posts';
     <?php endif; ?>
     <?php if ($users->isAdmin()): ?>
         <h2><?php if ($post->approved): ?>
-                <a href="/posts/approve?id=<?= $post->id ?>&approved=false"><button type="submit" class="btn btn-secondary">Unapprove</button></a>
+                <a href="/admin/posts/approve?id=<?= $post->id ?>&approved=false"><button type="submit" class="btn btn-secondary">Unapprove</button></a>
             <?php else: ?>
-                <a href="/posts/approve?id=<?= $post->id ?>&approved=true"><button type="submit" class="btn btn-success">Approve</button></a>
+                <a href="/admin/posts/approve?id=<?= $post->id ?>&approved=true"><button type="submit" class="btn btn-success">Approve</button></a>
             <?php endif;
             endif;
             ?></h2>

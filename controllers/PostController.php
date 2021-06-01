@@ -36,7 +36,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = $this->post->getAll();
-        return $this->render('home', [
+        return $this->render('/posts/index', [
             'posts' => $posts,
             'users' => new User(),
         ]);
@@ -69,7 +69,7 @@ class PostController extends Controller
             $post->loadData($request->getBody());
             if ($post->validate() && $post->save()) {
                 Application::$app->session->setFlash('success', 'Post has been created, it will be visible when admin approves it.');
-                Application::$app->response->redirect('/');
+                Application::$app->response->redirect('/posts');
             }
         }
         return $this->render('posts/create', [
@@ -94,9 +94,9 @@ class PostController extends Controller
             if ($this->post->validate() && $this->post->update($_GET['id'])) {
                 Application::$app->session->setFlash('success', 'Post has been updated, it will be visible when admin approves it.');
                 if ((new User())->isAdmin()) {
-                    Application::$app->response->redirect('/posts');
+                    Application::$app->response->redirect('/admin/posts');
                 } else {
-                    Application::$app->response->redirect('/');
+                    Application::$app->response->redirect('/posts');
                 }
             }
         }
@@ -119,9 +119,9 @@ class PostController extends Controller
         if ($this->post->delete($_GET['id'])) {
             Application::$app->session->setFlash('success', 'Post has been deleted.');
             if ((new User())->isAdmin()) {
-                Application::$app->response->redirect('/posts');
+                Application::$app->response->redirect('/admin/posts');
             } else {
-                Application::$app->response->redirect('/');
+                Application::$app->response->redirect('/posts');
             }
         }
     }

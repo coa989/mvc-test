@@ -17,12 +17,12 @@ $dotenv->load();
 $app = new Application(dirname(__DIR__));
 
 /** AdminController routes */
-$app->router->get('/dashboard', [AdminController::class, 'index']);
-$app->router->get('/users', [AdminController::class, 'users']);
-$app->router->get('/posts', [AdminController::class, 'posts']);
-$app->router->get('/posts/approve', [AdminController::class, 'approvePost']);
-$app->router->get('/comments', [AdminController::class, 'comments']);
-$app->router->get('/comments/approve', [AdminController::class, 'ApproveComment']);
+$app->router->get('/admin', [AdminController::class, 'index']);
+$app->router->get('/admin/users', [AdminController::class, 'users']);
+$app->router->get('/admin/posts', [AdminController::class, 'posts']);
+$app->router->get('/admin/posts/approve', [AdminController::class, 'approvePost']);
+$app->router->get('/admin/comments', [AdminController::class, 'comments']);
+$app->router->get('/admin/comments/approve', [AdminController::class, 'ApproveComment']);
 /** UserController routes */
 $app->router->get('/users/show', [UserController::class, 'show']);
 $app->router->get('/users/create', [UserController::class, 'create']);
@@ -38,7 +38,7 @@ $app->router->get('/register', [AuthController::class, 'register']);
 $app->router->post('/register', [AuthController::class, 'register']);
 $app->router->get('/logout', [AuthController::class, 'logout']);
 /** PostController routes */
-$app->router->get('/', [PostController::class, 'index']);
+$app->router->get('/posts', [PostController::class, 'index']);
 $app->router->get('/posts/show', [PostController::class, 'show']);
 $app->router->get('/posts/create', [PostController::class, 'create']);
 $app->router->post('/posts/create', [PostController::class, 'create']);

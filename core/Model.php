@@ -238,7 +238,7 @@ abstract class Model
     public function getAll()
     {
         $tableName = $this->tableName();
-        $statement = $this->prepare("SELECT * FROM $tableName");
+        $statement = $this->prepare("SELECT * FROM $tableName ORDER BY created_at DESC");
         $statement->execute();
 
         return $statement->fetchAll(\PDO::FETCH_OBJ);

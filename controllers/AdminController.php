@@ -39,7 +39,7 @@ class AdminController extends Controller
     public function index()
     {
         $users = $this->user->getAll();
-        return $this->render('admin/dashboard', [
+        return $this->render('admin/index', [
             'users' => $users
         ]);
     }
@@ -82,7 +82,7 @@ class AdminController extends Controller
         if ((new Post)->approve()) {
             Application::$app->session->setFlash('success', 'Post has been approved.');
             $id = $_GET['id'];
-            Application::$app->response->redirect("show?id=$id");
+            Application::$app->response->redirect("/posts/show?id=$id");
         }
     }
 
@@ -91,7 +91,7 @@ class AdminController extends Controller
         if ((new Comment())->approve()) {
             Application::$app->session->setFlash('success', 'Post has been approved.');
             $id = $_GET['post'];
-            Application::$app->response->redirect("/comments?id=$id");
+            Application::$app->response->redirect("/admin/comments?id=$id");
         }
     }
 }   

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace app\models;
-
 
 use app\core\Model;
 
@@ -54,6 +52,15 @@ class Post extends Model
         $this->approved = filter_var($_GET['approved'], FILTER_VALIDATE_BOOL);
         parent::updateColumn(['id' => $_GET['id']], 'approved');
         return true;
+    }
+
+    public function sortByDate( $post)
+    {
+        dd($post);
+        foreach ($post as $key => $part) {
+            $sort[$key] = strtotime($part['datetime']);
+        }
+        array_multisort($sort, SORT_DESC, $originalArray);
     }
 
     /**

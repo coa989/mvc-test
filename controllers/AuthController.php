@@ -46,11 +46,12 @@ class AuthController extends Controller
             if ($user->validate() && $user->login()) {
                 Application::$app->session->setFlash('success', 'You are successfully login');
                 if ((new User())->isAdmin()) {
-                    Application::$app->response->redirect('/dashboard');
+                    Application::$app->response->redirect('/admin');
                     // nemam ideju zasto je doslo do toga da moram da stavim die() !!!
                     die();
                 } else {
-                    Application::$app->response->redirect('/');
+                    Application::$app->response->redirect('/posts');
+                    die();
                 }
             }
         }
