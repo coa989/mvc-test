@@ -7,7 +7,7 @@ use app\controllers\AuthController;
 use app\controllers\PostCommentController;
 use app\controllers\PostController;
 use app\controllers\PostLikeController;
-use app\controllers\UserProfileController;
+use app\controllers\SiteController;
 use app\controllers\UserController;
 use app\core\Application;
 
@@ -54,6 +54,8 @@ $app->router->get('/comments/delete', [PostCommentController::class, 'delete']);
 $app->router->post('/likes/create', [PostLikeController::class, 'create']);
 $app->router->post('/likes/delete', [PostLikeController::class, 'delete']);
 /** ProfileController routes */
-$app->router->get('/profile', [UserProfileController::class, 'index']);
+$app->router->get('/profile', [SiteController::class, 'profile']);
+$app->router->get('/contact', [SiteController::class, 'contact']);
+$app->router->post('/contact', [SiteController::class, 'contact']);
 
 $app->run();

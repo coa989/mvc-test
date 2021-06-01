@@ -54,15 +54,6 @@ class Post extends Model
         return true;
     }
 
-    public function sortByDate( $post)
-    {
-        dd($post);
-        foreach ($post as $key => $part) {
-            $sort[$key] = strtotime($part['datetime']);
-        }
-        array_multisort($sort, SORT_DESC, $originalArray);
-    }
-
     /**
      * @return string
      */

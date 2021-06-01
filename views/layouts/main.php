@@ -27,7 +27,10 @@ $user = new User();
                 </li>
                 <?php else: ?>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/posts">Posts</a>
+                    <a class="nav-link" aria-current="page" href="/posts">Home</a>
+                </li>
+                    <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/contact">Contact</a>
                 </li>
                 <?php endif ?>
             </ul>
