@@ -54,6 +54,7 @@ $app->router->get('/comments/delete', [PostCommentController::class, 'delete']);
 $app->router->post('/likes/create', [PostLikeController::class, 'create']);
 $app->router->post('/likes/delete', [PostLikeController::class, 'delete']);
 /** ProfileController routes */
+$app->router->get('/', [SiteController::class, 'index']);
 $app->router->get('/profile', [SiteController::class, 'profile']);
 $app->router->get('/contact', [SiteController::class, 'contact']);
 $app->router->post('/contact', [SiteController::class, 'contact']);

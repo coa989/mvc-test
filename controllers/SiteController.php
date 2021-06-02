@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\Email;
 use app\core\exceptions\ForbiddenException;
 use app\core\Request;
 use app\models\Contact;
@@ -15,15 +16,9 @@ use app\models\User;
  */
 class SiteController extends Controller
 {
-    /**
-     * ProfileController constructor.
-     * @throws ForbiddenException
-     */
-    public function __construct()
+    public function index()
     {
-        if (Application::$app->session->isGuest()) {
-            throw new ForbiddenException();
-        }
+        return $this->render('home');
     }
 
     /**
@@ -37,13 +32,18 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return string|string[]
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public function contact(Request $request)
     {
         $contact = new Contact();
         if ($request->isPost()) {
             $contact->loadData($request->getBody());
             if ($contact->validate() && $contact->save()) {
-                // TODO send contact form via email
+                (new Email())->contact($contact->email, $contact->name, $contact->subject, $contact->message);
                 Application::$app->response->redirect('/posts');
             }
         }
