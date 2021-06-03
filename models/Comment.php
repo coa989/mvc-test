@@ -11,8 +11,9 @@ use app\core\Model;
 class Comment extends Model
 {
     public string $body = '';
-    public string $user_id = '';
-    public string $post_id = '';
+    public int $user_id;
+    public int $post_id;
+    public ?int $parent_id = null;
     public bool $approved = false;
 
     /**
@@ -57,7 +58,7 @@ class Comment extends Model
      */
     public function attributes(): array
     {
-        return ['body', 'user_id', 'post_id', 'approved'];
+        return ['body', 'user_id', 'post_id', 'parent_id', 'approved'];
     }
 
     /**

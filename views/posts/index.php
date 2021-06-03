@@ -5,7 +5,7 @@
  * @var $users \app\models\User
  */
 
-$this->title = 'Homepage';
+$this->title = 'Posts';
 ?>
 <div class="container">
     <a href="posts/create"><button class="btn btn-success">Create Post</button></a>

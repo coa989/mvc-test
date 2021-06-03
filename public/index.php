@@ -16,6 +16,11 @@ $dotenv->load();
 
 $app = new Application(dirname(__DIR__));
 
+/** ProfileController routes */
+$app->router->get('/', [SiteController::class, 'index']);
+$app->router->get('/profile', [SiteController::class, 'profile']);
+$app->router->get('/contact', [SiteController::class, 'contact']);
+$app->router->post('/contact', [SiteController::class, 'contact']);
 /** AdminController routes */
 $app->router->get('/admin', [AdminController::class, 'index']);
 $app->router->get('/admin/users', [AdminController::class, 'users']);
@@ -50,13 +55,11 @@ $app->router->post('/comments/create', [PostCommentController::class, 'create'])
 $app->router->get('/comments/edit', [PostCommentController::class, 'edit']);
 $app->router->post('/comments/edit', [PostCommentController::class, 'edit']);
 $app->router->get('/comments/delete', [PostCommentController::class, 'delete']);
-
+$app->router->get('/comments/reply', [PostCommentController::class, 'reply']);
+$app->router->post('/comments/reply', [PostCommentController::class, 'reply']);
+/** PostLikeController */
 $app->router->post('/likes/create', [PostLikeController::class, 'create']);
 $app->router->post('/likes/delete', [PostLikeController::class, 'delete']);
-/** ProfileController routes */
-$app->router->get('/', [SiteController::class, 'index']);
-$app->router->get('/profile', [SiteController::class, 'profile']);
-$app->router->get('/contact', [SiteController::class, 'contact']);
-$app->router->post('/contact', [SiteController::class, 'contact']);
+
 
 $app->run();

@@ -30,6 +30,9 @@ $user = new User();
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/posts">Posts</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/contact">Contact</a>
                 </li>
                 <?php endif ?>

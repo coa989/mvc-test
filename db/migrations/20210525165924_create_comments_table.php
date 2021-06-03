@@ -21,6 +21,7 @@ final class CreateCommentsTable extends AbstractMigration
         $comments = $this->table('comments');
         $comments->addColumn('user_id', 'integer')
             ->addColumn('post_id', 'integer')
+            ->addColumn('parent_id', 'integer', ['null' => true])
             ->addColumn('body', 'text')
             ->addColumn('approved', 'bit', ['default' => false])
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])

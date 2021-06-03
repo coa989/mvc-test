@@ -10,6 +10,7 @@ use app\models\Comment;
 use app\models\Like;
 use app\models\Post;
 use app\models\User;
+use Cake\Core\App;
 
 /**
  * Class PostCommentController
@@ -93,5 +94,26 @@ class PostCommentController extends Controller
                 Application::$app->response->redirect("/posts/show?id=$comment->post_id");
             }
         }
+    }
+
+    public function reply(Request $request)
+    {
+        $comments = new Comment();
+        $parentComment = $comments->findOne(['id' => $_GET['id']]);
+        if ($request->isPost()) {
+            $comments->loadData($request->getBody());
+            if ($comments->validate() && $comments->save()) {
+                Application::$app->response->redirect("/posts/show?id=$parentComment->post_id");
+            }
+            return $this->render('/comments/reply', [
+                'parentComment' => $parentComment,
+                'users' => new User(),
+                'comment' => $comments->findOne(['id' => $comments->parent_id])
+            ]);
+        }
+        return $this->render('/comments/reply', [
+            'parentComment' => $parentComment,
+            'users' => new User()
+        ]);
     }
 }

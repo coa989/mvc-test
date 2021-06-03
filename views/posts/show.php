@@ -62,11 +62,13 @@ $this->title = 'Posts';
 </div>
 <div class="container">
     <h3>All Comments (<?= $comment->countApproved($post->id) ?>)</h3>
-    <?php foreach ($comments as $comment): ?>
+    <?php // TODO show child comment under parents
+     foreach ($comments as $comment): ?>
         <?php if ($comment->approved): ?>
             <div class="card">
                 <p><?= $users->findOne(['id' => $comment->user_id])->username ?></p>
                 <h4><?= $comment->body ?></h4>
+                <a href="/comments/reply?id=<?= $comment->id ?>"><button class="btn btn-secondary mb-2">Reply</button></a>
                 <?php if ($users->isOwner($comment->user_id)): ?>
                 <div class="container">
                     <a href="/comments/edit?id=<?= $comment->id ?>"><button class="btn btn-primary">Edit</button></a>
